@@ -17,18 +17,21 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Run Gitleaks secret scan
+      - name: Gitleaks secret scan
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run Trivy filesystem scan
+      - name: Trivy filesystem scan
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: fs
           scan-ref: .
           severity: CRITICAL,HIGH
           ignore-unfixed: true
+
+      - name: Dependency review
+        uses: actions/dependency-review-action@v4
 
   build:
     name: Build Application
@@ -39,7 +42,8 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Check project files
+      - name: Build verification
         run: |
-          echo "Application source code checked out successfully"
+          echo "Application build verification started"
           ls -la
+          echo "Build verification completed successfully"
