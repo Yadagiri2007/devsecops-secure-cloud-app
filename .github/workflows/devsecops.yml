@@ -31,7 +31,8 @@ jobs:
           severity: CRITICAL,HIGH
           ignore-unfixed: true
 
-      - name: Dependency review
+        - name: Dependency review
+        if: github.event_name == 'pull_request'
         uses: actions/dependency-review-action@v4
 
   build:
