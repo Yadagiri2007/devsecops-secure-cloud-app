@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 permissions:
   id-token: write
@@ -62,10 +59,16 @@ jobs:
           docker tag devsecops-secure-cloud-app:${{ github.sha }} \
             816435463113.dkr.ecr.eu-north-1.amazonaws.com/devsecops-secure-cloud-app:${{ github.sha }}
 
+          docker tag devsecops-secure-cloud-app:${{ github.sha }} \
+            816435463113.dkr.ecr.eu-north-1.amazonaws.com/devsecops-secure-cloud-app:latest
+
       - name: Push Docker image to ECR
         run: |
           docker push \
             816435463113.dkr.ecr.eu-north-1.amazonaws.com/devsecops-secure-cloud-app:${{ github.sha }}
+
+          docker push \
+            816435463113.dkr.ecr.eu-north-1.amazonaws.com/devsecops-secure-cloud-app:latest
 
       - name: Docker image security scan
         uses: aquasecurity/trivy-action@master
